@@ -14,6 +14,9 @@ import path from 'path';
 import { app, BrowserWindow, shell } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
+import installExtension, { REDUX_DEVTOOLS } from 'electron-devtools-installer';
+
+const { session } = require('electron')
 export default class AppUpdater {
   constructor() {
     log.transports.file.level = 'info';
@@ -39,7 +42,7 @@ if (
 const installExtensions = async () => {
   const installer = require('electron-devtools-installer');
   const forceDownload = !!process.env.UPGRADE_EXTENSIONS;
-  const extensions = ['REACT_DEVELOPER_TOOLS'];
+  const extensions = ['REACT_DEVELOPER_TOOLS' ];
 
   return installer
     .default(
@@ -49,6 +52,11 @@ const installExtensions = async () => {
     .catch(console.log);
 };
 
+app.whenReady().then(() => {
+  installExtension(REDUX_DEVTOOLS)
+    .then((name) => console.log(`Added Extension:  ${name}`))
+    .catch((err) => console.log('An error occurred: ', err));
+});
 const createWindow = async () => {
   if (
     process.env.NODE_ENV === 'development' ||
@@ -85,6 +93,8 @@ const createWindow = async () => {
       throw new Error('"mainWindow" is not defined');
     }
 
+    // session.loadExtension(path.join(""));
+    // BrowserWindow.addExtension();
     if (process.env.START_MINIMIZED) {
       mainWindow.minimize();
     } else {

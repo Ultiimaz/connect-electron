@@ -1,4 +1,4 @@
-export default function counter(state = 0, action) {
+export default function general(state = 0, action) {
   switch (action.type) {
     case "SET_LOGGED_IN":
       return state + 1;
