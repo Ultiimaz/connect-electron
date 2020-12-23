@@ -15,11 +15,11 @@ export const AuthenticatedRoute = props => {
     return <Route exact path={props.path} render={() => (<DefaultLayout><Component/></DefaultLayout>)} />
   }
   else{
-    // history.push("/404");
+    history.push("/login");
     return <p>404</p>
   }
 }
 AuthenticatedRoute.propTypes = {
   path: PropTypes.string,
-  component: PropTypes.element
+  component: PropTypes.func
 }
